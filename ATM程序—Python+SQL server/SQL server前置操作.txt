@@ -1,0 +1,15 @@
+-- 新建总库
+create database universe
+on(
+	name = universe,
+	filename = 'E:\Python\ATM\universe.mdf',
+	size = 10,
+	maxsize = 100,
+	filegrowth = 5
+)
+-- 新建总表
+create table users
+(
+	name varchar(20) primary key,
+	word varchar(20) not null
+)
