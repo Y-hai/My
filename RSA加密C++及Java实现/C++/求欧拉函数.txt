@@ -1,0 +1,39 @@
+#include <iostream>
+using namespace std;
+
+long phi(long x)
+{
+    long res = x;
+    for (long i = 2; i <= x; i++)
+        if (x % i == 0)
+        {
+            res = res * (i - 1) / i;
+            while (x % i == 0)
+                x /= i;
+        }
+    if (x > 1)
+        res = res * (x - 1) / x;
+
+    return res;
+}
+
+int gcd(long p, long q)
+{
+    return p % q == 0 ? q : gcd(q, p % q);
+}
+
+main()
+{
+    long q = 2, p = 4;
+    while (true)
+    {
+        cout << "请分别输入p、q的值：" << endl;
+        cin >> p >> q;
+        int n = p * q;
+        if (gcd(max(p, q), min(p, q)) == 1)
+            cout << "phi(" << n << ") = " << phi(q * p) << endl << endl;
+        else
+            cout << "p、q不互质" << endl << endl;
+    }
+    system("pause");
+}

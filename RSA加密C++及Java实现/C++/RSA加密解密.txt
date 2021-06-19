@@ -1,0 +1,57 @@
+# include <iostream>
+# include <windows.h>
+
+using namespace std;
+
+typedef long long LL;
+
+LL f(LL a, LL b, LL m){	// 快速幂 
+	LL res = 1;
+	while (b > 0) {
+		if ((b & 1) == 1)
+			res = (res * a) % m;
+ 
+		a = (a * a) % m;
+		b >>= 1;
+	}
+	return res;
+}
+
+main() {
+	char s[1001];
+	LL m[1001];			// 存ASCII码
+	char *p = s;
+	string a;
+	cout << "请输入明文：" << endl;
+	getline(cin, a);		// 输入明文
+	int l = a.length();
+	strcpy(p, a.c_str());
+	cout << "字符串长度为：" << l << endl;
+	cout << "明文ASCII码如下：" << endl;
+	for (int i = 0; i < l; i++) {
+		m[i] = (long)s[i];
+		cout << m[i] << " ";
+	}
+	cout << endl;
+	// 开始加密
+	LL e, N;
+	cout << "请输入公钥e，N：" << endl;
+	cin >> e >> N;
+	cout << endl << "密文ASCII码如下：" << endl;
+	for (int i = 0; i < l; ++i) {
+		m[i] = f(m[i], e, N) % N;
+		cout << m[i] << " ";
+	}
+	cout << endl << endl;
+	// 开始解密
+	cout << "请输入私钥：" << endl;
+	LL d;
+	cin >> d;
+	cout << "解密明文如下：" << endl;
+	for (int i = 0; i < l; ++i) {
+		m[i] = f(m[i], d, N) % N;
+		cout << (char)m[i];
+	}
+	cout << endl << endl;
+	system("pause");
+}

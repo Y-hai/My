@@ -1,0 +1,73 @@
+#include <iostream>
+#include <cstring>
+
+using namespace std;
+
+long gcd(long x, long y) {
+	return x%y==0?y:gcd(y,x%y);
+}
+
+long phi(long n) {
+	long res = n;
+	for(int i = 2; i <= n; ++i) {
+		if(n % i == 0) {
+			res = res * (i - 1) / i;
+			while(n % i == 0)
+				n /= i;
+		}
+	}
+	if(n > 1)
+		res = res * (n - 1) / n;
+	return res;
+}
+
+main() {
+	long p,q;
+	cout << "请依次输入p、q的值：" << endl;
+	cin >> p >> q;
+	while(gcd(max(p, q), min(p, q)) != 1) {
+		cout << "p与q不互质，请重新输入p、q的值：" << endl;
+		cin >> p >> q;
+	}
+	long N = p * q;
+	cout << "N:" << N <<endl;
+	long n = phi(N);
+	cout << "phi(N):" << n << endl;
+	long w[101];
+	int idx = 0;
+	for (int i = 2; i < n; i++) {
+		if (gcd(n, i) == 1) {
+			w[idx++] = i;
+			cout << i << " ";
+		}
+		if (idx == 101)
+			break;
+	}
+	cout << endl;
+	int e;
+	cout << "请选择公钥(小于phi(N)且与phi(N)互质的非负整数)：" << endl;
+	cin >> e;
+	while (gcd(n, e) != 1) {
+		cout << "f(N)与e不互质：" << endl;
+		cin >> e;
+	}
+	memset(w,0,sizeof w);
+	idx = 0;
+	long d = 0;
+	for (int i = 1; i < 0x3f3f3f3f; i++) {
+		if ((i * n + 1) % e == 0) {
+			d = (i * n + 1) / e;
+			w[idx++] = d;
+		}
+		if (idx == 101)
+			break;
+	}
+	cout << "公钥：{" << e << " " << N << "}" << endl;
+	cout << "私钥d可以从以下数中任选：" << endl;
+	for (int i = 0; i < 101; ++i)
+		cout << w[i] << " ";
+	cout << endl;
+	system("pause");
+}
+
+
