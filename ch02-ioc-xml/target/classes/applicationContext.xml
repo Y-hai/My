@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--简单数据类型的赋值，set注入，80%用这个，这里实现了引用类型的自动注入-->
+    <bean id="app" class="org.example.App" autowire="byName">
+        <property name="name" value="李四"/><!--调用setName("李四")-->
+        <property name="no" value="123"/><!--调用setNo("123")-->
+<!--        <property name="student" ref="stu"/>-->
+    </bean>
+    <!--引用类型的赋值-->
+    <bean id="student" class="org.example.Student">
+        <property name="a" value="清华大学"/>
+        <property name="b" value="123"/>
+    </bean>
+
+    <!--构造注入，可用name赋值也可以用下标赋值-->
+    <bean id="aaa" class="org.example.test.aaa">
+        <!--用name可读性高-->
+        <constructor-arg name="name" value="张三"/>
+        <constructor-arg name="no" value="123"/>
+        <constructor-arg name="school" ref="school1"/>
+    </bean>
+
+    <bean id="school1" class="org.example.test.School">
+        <constructor-arg name="name" value="人民大学"/>
+        <constructor-arg name="no" value="123"/>
+    </bean>
+
+    <bean id="ccc" class="org.example.test.aaa" autowire="byType">
+        <!--index下标赋值-->
+        <property name="no" value="123"/>
+        <property name="name" value="YH"/>
+    </bean>
+</beans>
